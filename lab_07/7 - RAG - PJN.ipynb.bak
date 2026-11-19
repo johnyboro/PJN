@@ -54,7 +54,6 @@
       "id": "7c3530f1-2aa4-4ae7-84a5-12fcbf63921b",
       "metadata": {
         "id": "PjMinMxp4mST",
-        "outputId": "65f80096-fa27-4547-acdb-33cc34d062cd",
         "executionInfo": {
           "elapsed": 8588,
           "status": "ok",
@@ -65,11 +64,12 @@
           },
           "user_tz": -60
         },
+        "outputId": "65f80096-fa27-4547-acdb-33cc34d062cd",
         "colab": {
           "base_uri": "https://localhost:8080/"
         }
       },
-      "execution_count": 1,
+      "execution_count": 4,
       "source": [
         "%pip install -q sentence-transformers faiss-cpu transformers\n"
       ],
@@ -89,7 +89,7 @@
       "metadata": {
         "id": "fhSlElWO4oTi"
       },
-      "execution_count": 4,
+      "execution_count": 5,
       "source": [
         "import os\n",
         "import faiss\n",
@@ -126,7 +126,7 @@
       "metadata": {
         "id": "9ZNqqB754z0C"
       },
-      "execution_count": 1,
+      "execution_count": 6,
       "source": [
         "def load_documents(doc_dir: str) -> list:\n",
         "    print(\"Loading documents...\")\n",
@@ -186,7 +186,7 @@
       "metadata": {
         "id": "wvL12J474-uI"
       },
-      "execution_count": 2,
+      "execution_count": 7,
       "source": [
         "def embed_documents(docs: list, model_name: str = \"all-MiniLM-L6-v2\") -> tuple:\n",
         "    print(\"Embedding documents...\")\n",
@@ -234,7 +234,7 @@
       "metadata": {
         "id": "IAPy8J9g5A8k"
       },
-      "execution_count": 5,
+      "execution_count": 8,
       "source": [
         "def build_faiss_index(embeddings: np.ndarray) -> faiss.IndexFlatL2:\n",
         "    print(\"Building FAISS index...\")\n",
@@ -269,7 +269,7 @@
       "metadata": {
         "id": "S3H5J5w05Dbw"
       },
-      "execution_count": 6,
+      "execution_count": 9,
       "source": [
         "def retrieve(index: faiss.IndexFlatL2, query_embedding: np.ndarray, k: int = 3) -> tuple:\n",
         "    print(f\"Retrieving top-{k} documents...\")\n",
@@ -306,7 +306,7 @@
       "metadata": {
         "id": "Zrl-oTjx5FgC"
       },
-      "execution_count": 7,
+      "execution_count": 10,
       "source": [
         "def build_prompt(context_docs: list, user_query: str) -> str:\n",
         "    print(\"Building prompt...\")\n",
@@ -341,7 +341,7 @@
       "metadata": {
         "id": "EfrW9hDT5JHA"
       },
-      "execution_count": 8,
+      "execution_count": 11,
       "source": [
         "def generate_answer(\n",
         "    prompt: str,\n",
@@ -383,7 +383,7 @@
       "cell_type": "code",
       "id": "24241297-4158-4e70-8b68-72767164b5ca",
       "metadata": {},
-      "execution_count": 9,
+      "execution_count": 12,
       "source": [
         "docs_dir = Path(\"docs\")\n",
         "docs_dir.mkdir(parents=True, exist_ok=True)\n",
@@ -429,7 +429,7 @@
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "Created 5 sample documents in: /home/boro/Documents/Code/PJATK/PJN/lab_07/docs\n"
+            "Found existing .txt files in: /home/boro/Documents/Code/PJATK/PJN/lab_07/docs\n"
           ]
         }
       ]
@@ -449,10 +449,6 @@
       "id": "be81f1ee-41f8-4636-a389-fa07b6a433b4",
       "metadata": {
         "id": "N175y4Nf5OVU",
-        "outputId": "6624c56c-e760-4575-de2b-12b2395e78f0",
-        "colab": {
-          "base_uri": "https://localhost:8080/"
-        },
         "executionInfo": {
           "elapsed": 5241,
           "status": "ok",
@@ -462,9 +458,13 @@
             "userId": "11924328977109611513"
           },
           "user_tz": -60
+        },
+        "outputId": "6624c56c-e760-4575-de2b-12b2395e78f0",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
         }
       },
-      "execution_count": 11,
+      "execution_count": 13,
       "source": [
         "docs = load_documents(\"docs\")  # wrzuć pliki .txt do `docs/`\n",
         "\n",
@@ -495,31 +495,128 @@
           "output_type": "stream",
           "name": "stdout",
           "text": [
-            "Loading documents...\n"
+            "Loading documents...\n",
+            "Loaded: Number of chunks: 5\n",
+            "Embedding documents...\n"
           ]
         },
         {
-          "output_type": "error",
-          "ename": "FileNotFoundError",
-          "evalue": "Brak katalogu: /docs",
-          "traceback": [
-            "---------------------------------------------------------------------------",
-            "FileNotFoundError                         Traceback (most recent call last)",
-            "Cell In[11], line 1",
-            "----> 1 docs = load_documents(\"/docs\")  # wrzuć pliki .txt do `docs/`",
-            "      2",
-            "      3 embeddings, embed_model = embed_documents(docs)",
-            "      4",
-            "Cell In[1], line 28, in load_documents(doc_dir)",
-            "     24     docs = []",
-            "     25     directory = Path(doc_dir)",
-            "     26",
-            "     27     if not directory.is_dir():",
-            "---> 28         raise FileNotFoundError(f\"Brak katalogu: {directory.resolve()}\")",
-            "     29",
-            "     30     # Czytamy każdy plik .txt i dodajemy jego chunki do wspólnej listy.",
-            "     31     for file_path in sorted(directory.glob(\"*.txt\")):",
-            "FileNotFoundError: Brak katalogu: /docs"
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights: 100%|██████████| 103/103 [00:00<00:00, 14071.64it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            ""
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Batches:   0%|          | 0/1 [00:00<?, ?it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Batches: 100%|██████████| 1/1 [00:00<00:00,  5.24it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Batches: 100%|██████████| 1/1 [00:00<00:00,  5.22it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            ""
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Building FAISS index...\n",
+            "Retrieving top-3 documents...\n",
+            "Building prompt...\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights:   0%|          | 0/436 [00:00<?, ?it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights:  41%|████▏     | 180/436 [00:00<00:00, 1753.86it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights:  82%|████████▏ | 357/436 [00:00<00:00, 1742.87it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Loading weights: 100%|██████████| 436/436 [00:00<00:00, 1638.91it/s]\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            ""
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Prompt:\n",
+            "Use only the context below to answer the question. If the context does not contain the answer, say you don't know.\n",
+            "Context:\n",
+            "Cheese production begins with selecting and testing fresh milk. The milk must be checked for quality, safety, and composition. Depending on the type of cheese, it may then be pasteurized and prepared for adding starter cultures.\n",
+            "During cheese making, starter cultures are added to milk. Rennet or another coagulant helps form the curd. The curd is cut, heated, and separated from whey. The exact sequence depends on the cheese variety.\n",
+            "Some cheeses are aged after pressing and salting. Temperature and humidity during ripening affect the final texture and flavor. Fresh cheeses may skip long aging.\n",
+            "Question: Where begins cheese production?\n",
+            "Answer:\n",
+            "Question:\n",
+            "Where begins cheese production?\n",
+            "Answer:\n",
+            "The first step in cheese making is selecting and testing fresh milk. The milk must be checked for quality, safety, and composition. Depending on the type of cheese, it may then be pasteurized and prepared for adding starter cultures.\n",
+            "During cheese making, starter cultures are added to milk. Rennet or another coagulant\n"
           ]
         }
       ]
