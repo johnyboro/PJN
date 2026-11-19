@@ -1,0 +1,1 @@
+Three dimensional printing builds objects layer by layer. Fused filament fabrication uses a heated nozzle to deposit thermoplastic material.
